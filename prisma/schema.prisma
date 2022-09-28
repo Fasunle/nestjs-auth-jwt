@@ -15,4 +15,6 @@ model User {
   email     String @unique
   firstname String
   lastname  String
+  hash_password String
+  hash_refresh_token String?
 }
