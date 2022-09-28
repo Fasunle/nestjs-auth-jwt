@@ -1,4 +1,11 @@
-import { Body, Controller, Delete, HttpCode, HttpStatus, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
 import { TokenType } from './types';
@@ -15,7 +22,9 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async login(@Body() user: {email: string; password: string;}): Promise<TokenType> {
+  async login(
+    @Body() user: { email: string; password: string },
+  ): Promise<TokenType> {
     return this.authService.login();
   }
 
@@ -27,7 +36,7 @@ export class AuthController {
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refresh(){
+  async refresh() {
     return this.authService.refresh();
   }
 }

@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 
 // configs
 // https://dev.to/vjnvisakh/using-env-in-nestjs-3040
-ConfigModule.forRoot()
+ConfigModule.forRoot();
 
 @Module({
   imports: [PrismaModule, AuthModule],
