@@ -1,7 +1,7 @@
 {
   "name": "nest-auth-jwt",
   "version": "0.0.1",
-  "description": "",
+  "description": "Nestjs API starter template with authentication. Prisma ORM is used with Postgresql for database.",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -18,7 +18,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "migrate:deploy": "prisma migrate deploy",
+    "migrate:format": "prisma migrate format",
+    "migrate:generate": "prisma migrate dev --create-only --name",
+    "migrate:reset": "prisma migrate reset",
+    "migrate:status": "prisma migrate status"
+
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
