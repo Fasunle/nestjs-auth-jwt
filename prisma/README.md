@@ -4,27 +4,28 @@ A simple to use ORM.
 
 ## Migrations commands
 
-```bash
+You can run the following commands to manage migration fron the root folder.
 
-# create a migration file after modifying schema.prisma file:
+### create a migration file after modifying schema.prisma file
+
+```bash
 yarn migrate:generate name-of-migration
 ```
 
-```bash
+### Apply the migration:
 
-# Apply the migration:
+```bash
 yarn migrate:deploy
 ```
 
-```bash
+### Check the migration status:
 
-# Check the migration status:
+```bash
 yarn migrate:status
 ```
 
+### reset all migration on the database and reapply:
+
 ```bash
-
-# reset all migration on the database and reapply:
 yarn migrate:reset
-
 ```
