@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "Nestjs API starter template with authentication. Prisma ORM is used with Postgresql for database.",
   "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -24,7 +24,6 @@
     "migrate:generate": "prisma migrate dev --create-only --name",
     "migrate:reset": "prisma migrate reset",
     "migrate:status": "prisma migrate status"
-
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
