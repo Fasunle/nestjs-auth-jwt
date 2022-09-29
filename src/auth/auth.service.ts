@@ -33,10 +33,10 @@ export class AuthService {
         email: dto.email,
         hash_password: hash,
       },
-    } );
-    
-    const tokens = await this.getTokens( newUser.id, newUser.email );
+    });
 
+    const tokens = await this.getTokens(newUser.id, newUser.email);
+    await this.updateRefreshToken(newUser.id, tokens.refresh_token);
     return tokens;
   }
 
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   /**
-   * 
+   *
    * @param userId number
    * @param email user email
    * @returns access_token and refresh_token
@@ -79,5 +79,26 @@ export class AuthService {
       access_token,
       refresh_token,
     };
+  }
+
+  /**
+   * Update refresh_token hash to the database.
+   * @param userId number
+   * @param refreshToken string
+   */
+  async updateRefreshToken(
+    userId: number,
+    refreshToken: string,
+  ): Promise<void> {
+    const hash_refresh_token = await this.hash(refreshToken);
+    // update the refresh_token on the database
+    await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        hash_refresh_token,
+      },
+    });
   }
 }
