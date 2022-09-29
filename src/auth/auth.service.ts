@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 //
@@ -13,11 +13,32 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(): Promise<TokenType> {
-    return {
-      access_token: '',
-      refresh_token: '',
-    };
+  /**
+   * Signin an existing user and generate tokens.
+   * @param dto only email and password is required for signin
+   * @returns access_token and refresh_token
+   */
+  async login(
+    dto: Omit<AuthDto, 'firstname' | 'lastname'>,
+  ): Promise<TokenType> {
+    // find user with unique email address
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+
+    if (!user) throw new ForbiddenException('Access Denied');
+    // verify the given password with password on the database
+    const passwordMatches = bcrypt.compare(dto.password, user.hash_password);
+    // check if password matches
+    if (!passwordMatches)
+      throw new ForbiddenException('Username or Password is incorrect');
+
+    // get tokens and update refresh_token to database
+    const tokens = await this.getTokens(user.id, user.email);
+    await this.updateRefreshToken(user.id, tokens.refresh_token);
+    return tokens;
   }
 
   async logout() {}

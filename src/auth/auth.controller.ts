@@ -23,9 +23,9 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(
-    @Body() user: { email: string; password: string },
+    @Body() dto: Omit<AuthDto, 'firstname' | 'lastname'>,
   ): Promise<TokenType> {
-    return this.authService.login();
+    return this.authService.login(dto);
   }
 
   @Delete('logout')
