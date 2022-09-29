@@ -30,7 +30,7 @@ export class AuthService {
 
     if (!user) throw new ForbiddenException('Access Denied');
     // verify the given password with password on the database
-    const passwordMatches = bcrypt.compare(dto.password, user.hash_password);
+    const passwordMatches = await bcrypt.compare(dto.password, user.hash_password);
     // check if password matches
     if (!passwordMatches)
       throw new ForbiddenException('Username or Password is incorrect');
