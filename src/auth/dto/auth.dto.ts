@@ -3,7 +3,6 @@ import {
   IsString,
   IsNotEmpty,
   MinLength,
-  IsAlphanumeric,
 } from 'class-validator';
 
 export class AuthDto {
@@ -11,9 +10,7 @@ export class AuthDto {
   @IsNotEmpty()
   email: string;
 
-  @IsAlphanumeric('en', {
-    message: 'Password should contain number and string only',
-  })
+  @IsString()
   @MinLength(8)
   password: string;
 
