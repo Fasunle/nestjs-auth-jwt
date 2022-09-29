@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 //
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AuthDto } from './dto';
+import { AuthDto, LoginAuthDto } from './dto';
 import { TokenType } from './types';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class AuthService {
    * @returns access_token and refresh_token
    */
   async login(
-    dto: Omit<AuthDto, 'firstname' | 'lastname'>,
+    dto: LoginAuthDto, // class must be used to make class-validators work
   ): Promise<TokenType> {
     // find user with unique email address
     const user = await this.prismaService.user.findUnique({
@@ -30,7 +30,10 @@ export class AuthService {
 
     if (!user) throw new ForbiddenException('Access Denied');
     // verify the given password with password on the database
-    const passwordMatches = await bcrypt.compare(dto.password, user.hash_password);
+    const passwordMatches = await bcrypt.compare(
+      dto.password,
+      user.hash_password,
+    );
     // check if password matches
     if (!passwordMatches)
       throw new ForbiddenException('Username or Password is incorrect');

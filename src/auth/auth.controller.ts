@@ -7,7 +7,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto } from './dto';
+import { AuthDto, LoginAuthDto } from './dto';
 import { TokenType } from './types';
 
 @Controller('api/auth')
@@ -22,9 +22,7 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async login(
-    @Body() dto: Omit<AuthDto, 'firstname' | 'lastname'>,
-  ): Promise<TokenType> {
+  async login(@Body() dto: LoginAuthDto): Promise<TokenType> {
     return this.authService.login(dto);
   }
 
