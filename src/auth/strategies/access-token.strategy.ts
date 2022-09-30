@@ -1,9 +1,10 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { ACCESS_TOKEN } from 'src/common/strategy.types';
 
 export class AccessTokenStrategy extends PassportStrategy(
   Strategy,
-  'access-token-jwt',
+  ACCESS_TOKEN,
 ) {
   constructor() {
     super({
