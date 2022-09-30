@@ -18,7 +18,7 @@ ConfigModule.forRoot();
     AppService,
     {
       provide: APP_GUARD,
-      useClass: AccessTokenGaurd, // use access-token-gaurd aon all routes
+      useClass: AccessTokenGaurd, // use access-token-gaurd on all routes
     },
   ],
 })
