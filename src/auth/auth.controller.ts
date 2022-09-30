@@ -28,8 +28,8 @@ export class AuthController {
 
   @Delete('logout')
   @HttpCode(HttpStatus.OK)
-  async logout() {
-    return this.authService.logout();
+  async logout(@GetCurrentUser('email') email: string) {
+    return this.authService.logout(email);
   }
 
   @Post('refresh')
