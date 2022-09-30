@@ -63,6 +63,29 @@ export class AuthService {
     });
   }
 
+  async refresh(email: string, refreshToken: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) throw new ForbiddenException('Access Denied');
+
+    // check if the user has any refresh token before
+    const matchesRefreshToken = await bcrypt.compare(
+      refreshToken,
+      user.hash_refresh_token,
+    );
+
+    if (!matchesRefreshToken) throw new ForbiddenException('Login instead!');
+
+    // get tokens and update refresh_token to database
+    const tokens = await this.getTokens(user.id, user.email);
+    await this.updateRefreshToken(user.id, tokens.refresh_token);
+    return tokens;
+  }
+
   async signup(dto: AuthDto): Promise<TokenType> {
     const hash = await this.hash(dto.password);
     const newUser = await this.prismaService.user.create({
