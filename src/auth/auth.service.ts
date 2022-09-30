@@ -44,9 +44,24 @@ export class AuthService {
     return tokens;
   }
 
-  async logout() {}
-
-  async refresh() {}
+  /**
+   * Logout a user
+   * @param email
+   */
+  async logout(email: string) {
+    // set refresh_token hash to null in the database
+    await this.prismaService.user.updateMany({
+      where: {
+        email,
+        hash_refresh_token: {
+          not: null,
+        },
+      },
+      data: {
+        hash_refresh_token: null,
+      },
+    });
+  }
 
   async signup(dto: AuthDto): Promise<TokenType> {
     const hash = await this.hash(dto.password);
